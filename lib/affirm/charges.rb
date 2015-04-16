@@ -69,6 +69,25 @@ module Affirm
       assert_success(response)
     end
 
+    ######
+    # UPDATE
+    #
+    # order_id - (optional) string. Your internal order id. This is stored for your own future reference.
+    # shipping_carrier - (optional) string. The shipping carrier used to ship the items in the charge.
+    # shipping_confirmation - (optional) string. The shipping confirmation for the shipment.
+    def update(charge_id:, order_id: nil, shipping_carrier: nil, shipping_confirmation: nil)
+      make_request("#{charge_id}/update", :post, {
+        order_id: order_id,
+        shipping_carrier: shipping_carrier,
+        shipping_confirmation: shipping_confirmation
+      })
+    end
+
+    def update!(charge_id:, order_id: nil, shipping_carrier: nil, shipping_confirmation: nil)
+      response = update(charge_id: charge_id, order_id: order_id, shipping_carrier: shipping_carrier, shipping_confirmation: shipping_confirmation)
+      assert_success(response)
+    end
+
     private
 
     def make_request(path, method, data={})

@@ -98,4 +98,29 @@ describe Affirm::Charges do
       end
     end
   end
+
+  describe "self.update" do
+    let(:request_method) { :post }
+    let(:request_url) { "#{TEST_URL}/charges/ABCD/update" }
+    let(:response_body) { load_fixture("charges/update.json") }
+
+    it "is successsful" do
+      response = Affirm::API.charges.update(charge_id: "ABCD", order_id: "order_id", shipping_carrier: "carrier", shipping_confirmation: "confirmation")
+      response.should be_success
+    end
+
+    it "doesn't require the params" do
+      response = Affirm::API.charges.update(charge_id: "ABCD")
+      response.should be_success
+    end
+
+    context "bang method" do
+      let(:response_code) { 422 }
+      let(:response_body) { load_fixture("charges/invalid_request.json") }
+
+      it "raises an error on failure" do
+        expect { Affirm::API.charges.update!(charge_id: "ABCD") }.to raise_error(Affirm::Error)
+      end
+    end
+  end
 end
