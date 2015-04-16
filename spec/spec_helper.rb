@@ -1,4 +1,5 @@
 require 'webmock'
+require 'webmock/rspec'
 require 'affirm'
 
 include WebMock::API

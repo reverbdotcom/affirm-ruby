@@ -12,5 +12,5 @@ Gem::Specification.new do |s|
   s.add_dependency "typhoeus"
 
   s.add_development_dependency "rspec", "3.2.0"
-  s.add_development_dependency "webmock"
+  s.add_development_dependency "webmock", "1.21.0"
 end

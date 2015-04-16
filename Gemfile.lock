@@ -40,4 +40,4 @@ PLATFORMS
 DEPENDENCIES
   affirm!
   rspec (= 3.2.0)
-  webmock
+  webmock (= 1.21.0)
