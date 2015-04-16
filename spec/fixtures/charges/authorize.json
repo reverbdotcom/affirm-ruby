@@ -1,0 +1,45 @@
+{
+   "id":"TEST-ALO4-UVGR",
+   "created":"2014-03-18T19:19:04Z",
+   "currency":"USD",
+   "amount":6100,
+   "auth_hold":6100,
+   "payable":0,
+   "void":false,
+   "events":[
+      {
+         "created":"2014-03-20T14:00:33Z",
+         "currency":"USD",
+         "id":"UI1ZOXSXQ44QUXQL",
+         "transaction_id":"TpR3Xrx8TkvuGio0",
+         "type":"auth"
+      }
+   ],
+   "details":{
+      "items":{
+         "sweater-a92123":{
+            "sku":"sweater-a92123",
+            "display_name":"Sweater",
+            "qty":1,
+            "item_type":"physical",
+            "item_image_url":"http://placehold.it/350x150",
+            "item_url":"http://placehold.it/350x150",
+            "unit_price":5000
+         }
+      },
+      "shipping_amount":400,
+      "tax_amount":700,
+      "shipping":{
+         "name":{
+            "full":"John Doe"
+         },
+         "address":{
+            "line1":"325 Pacific Ave",
+            "city":"San Francisco",
+            "state":"CA",
+            "zipcode":"94112",
+            "country":"USA"
+         }
+      }
+   }
+}

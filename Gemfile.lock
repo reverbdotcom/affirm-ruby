@@ -30,7 +30,6 @@ GEM
     safe_yaml (1.0.4)
     typhoeus (0.7.1)
       ethon (>= 0.7.1)
-    vcr (2.9.3)
     webmock (1.21.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -41,5 +40,4 @@ PLATFORMS
 DEPENDENCIES
   affirm!
   rspec (= 3.2.0)
-  vcr (= 2.9.3)
   webmock

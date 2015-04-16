@@ -1,19 +1,15 @@
-require 'vcr'
 require 'webmock'
 require 'affirm'
 
 include WebMock::API
 
-VCR.configure do |config|
-  config.cassette_library_dir = "spec/vcr_cassettes"
-  config.hook_into :webmock
-end
+TEST_URL = "https://public_key:secret_key@test.affirm.com"
 
 RSpec.configure do |config|
   config.before(:suite) do
     Affirm::API.public_key = "public_key"
     Affirm::API.secret_key = "secret_key"
-    Affirm::API.api_url    = "https://sandbox.affirm.com/api/v2/"
+    Affirm::API.api_url    = "https://test.affirm.com"
   end
 
   config.expect_with :rspec do |expectations|
@@ -34,4 +30,8 @@ RSpec.configure do |config|
   end
 
   config.order = :random
+end
+
+def load_fixture(path)
+  File.read(File.join(__dir__, "fixtures", path))
 end
