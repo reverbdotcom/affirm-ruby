@@ -57,6 +57,13 @@ describe Affirm::Charges do
       response.should be_success
     end
 
+    it "optionally allows tracking params" do
+      params = { order_id: "order_id", shipping_carrier: "carrier", shipping_confirmation: "confirmation" }
+      Affirm::API.charges.capture({charge_id: "ABCD"}.merge(params))
+
+      expect(WebMock).to have_requested(request_method, request_url).with(body: params.to_json)
+    end
+
     context "bang method" do
       let(:response_code) { 422 }
       let(:response_body) { load_fixture("charges/invalid_request.json") }
