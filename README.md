@@ -12,6 +12,8 @@ gem 'affirm-ruby'
 ```
 and `bundle install`.
 
+*Note*: This gem is not yet registered with Rubygems. In the meantime, you can use the 'git' option in your Gemfile.
+
 ## Initialize
 Initialize the client with your credentials (if you're using rails, this goes in `config/initializers`).
 ```ruby
