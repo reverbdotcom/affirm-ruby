@@ -3,7 +3,7 @@ Ruby client library for integrating with Affirm financing (https://www.affirm.co
 
 Requires Ruby 2.1 or greater.
 
-[![Build Status](https://travis-ci.org/adelevie/parse-ruby-client.png?branch=master)](https://travis-ci.com/reverbdev/affirm-ruby)
+[![Build Status](https://travis-ci.org/reverbdev/affirm-ruby.png?branch=master)](https://travis-ci.org/reverbdev/affirm-ruby)
 
 ## Install
 Add to your gemfile:
