@@ -8,11 +8,9 @@ Requires Ruby 2.1 or greater.
 ## Install
 Add to your gemfile:
 ```ruby
-gem 'affirm-ruby'
+gem 'affirm'
 ```
 and `bundle install`.
-
-*Note*: This gem is not yet registered with Rubygems. In the meantime, you can use the 'git' option in your Gemfile.
 
 ## Initialize
 Initialize the client with your credentials (if you're using rails, this goes in `config/initializers`).
