@@ -137,5 +137,16 @@ describe Affirm::Client do
         expect { client.get("testpath") }.to raise_error(Affirm::ResourceNotFoundError)
       end
     end
+
+    context "non-json response" do
+      before do
+        stub_request(:get, affirm_url).
+          to_return(status: 500, body: "the server is down")
+      end
+
+      it "doesn't blow up" do
+        expect { client.get("testpath") }.to raise_error(Affirm::ServerError)
+      end
+    end
   end
 end
