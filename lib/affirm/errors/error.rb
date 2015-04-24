@@ -6,7 +6,7 @@ module Affirm
       new(
         status_code: response.status_code,
         code:        response.code,
-        message:     response.message
+        message:     response.message || response.raw_body
       )
     end
 
@@ -17,7 +17,7 @@ module Affirm
     end
 
     def to_s
-      "#{status_code} #{code}: #{message}"
+      "#{status_code} - (#{code}) #{message}"
     end
   end
 end

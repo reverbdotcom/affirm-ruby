@@ -1,11 +1,11 @@
 module Affirm
   class Response
-    attr_reader :status_code
+    attr_reader :status_code, :raw_body
 
     def initialize(success:, status_code:, body:)
       @success = success
       @status_code = status_code.to_i
-      @body = body
+      @raw_body = body
     end
 
     def success?
@@ -17,7 +17,9 @@ module Affirm
     end
 
     def body
-      JSON.parse(@body)
+      JSON.parse(@raw_body)
+    rescue JSON::ParserError
+      {}
     end
 
     def type
