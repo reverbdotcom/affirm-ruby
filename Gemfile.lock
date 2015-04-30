@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    affirm (0.0.1)
+    affirm (1.0.0)
       typhoeus
 
 GEM
