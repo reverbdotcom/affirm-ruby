@@ -17,7 +17,11 @@ module Affirm
     end
 
     def to_s
-      "#{status_code} - (#{code}) #{message}"
+      if code || message
+        "#{status_code} - (#{code}) #{message}"
+      else
+        status_code.to_s
+      end
     end
   end
 end

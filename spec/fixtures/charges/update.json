@@ -1,6 +1,7 @@
 {
   "created": "2014-10-08T23:48:04Z",
   "id": "DCPO5PP6QA9V7T60",
+  "type": "update",
   "order_id": "CUSTOM_ORDER_ID",
   "shipping_carrier": "USPS",
   "shipping_confirmation": "1Z23223"

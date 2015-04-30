@@ -28,6 +28,15 @@ module Affirm
       handle_errors(affirm_response)
     end
 
+    # like make_request, but raise error on failure
+    def make_request!(path, method, data={})
+      response = make_request(path, method, data)
+
+      raise Affirm::Error.from_response(response) if response.error?
+
+      response
+    end
+
     private
 
     def parse_response(response)

@@ -7,13 +7,16 @@ Requires Ruby 2.1 or greater.
 
 ## Install
 Add to your gemfile:
+
 ```ruby
 gem 'affirm'
 ```
+
 and `bundle install`.
 
 ## Initialize
 Initialize the client with your credentials (if you're using rails, this goes in `config/initializers`).
+
 ```ruby
 Affirm::API.public_key = "xxx"
 Affirm::API.secret_key = "xxx"
@@ -21,86 +24,87 @@ Affirm::API.api_url    = "https://sandbox.affirm.com/api/v2/"
 ```
 
 ## Charges
-The charges resource can be accessed through the api class:
+
+All API requests raise an `Affirm::Error` or subclass thereof on failure.
+
+### Creating/authorizing a charge
+
 ```ruby
-Affirm::API.charges
+charge = Affirm::Charge.create("checkout_token")
 ```
 
-### Authorizing a charge
+### Retrieving a charge
+
 ```ruby
-Affirm::API.charges.authorize(checkout_token: "token")
-Affirm::API.charges.authorize!(checkout_token: "token") # raises Affirm::Error on failure
+charge = Affirm::Charge.retrieve("ABCD-ABCD")
+
+charge.id
+charge.amount
+charge.created
+charge.currency
+charge.auth_hold
+charge.payable
+charge.void?
+charge.order_id
+charge.events    # array of Affirm::ChargeEvent
+charge.details   # hash of order details
 ```
 
-### Reading a charge
-```ruby
-Affirm::API.charges.get(charge_id: "abcd")
-```
+Raises an `Affirm::ResourceNotFoundError` if the charge doesn't exist.
+
+See https://docs.affirm.com/v2/api/charges/#charge-object for more info on the charge object
 
 ### Capturing a charge
 Optionally takes an `order_id`, `shipping_carrier`, and `shipping_confirmation`.
+
 ```ruby
-Affirm::API.charges.capture(charge_id: "abcd")
-Affirm::API.charges.capture(charge_id: "abcd", order_id: "1234", shipping_carrier: "USPS", shipping_confirmation: "ABCD1234")
-Affirm::API.charges.capture!(charge_id: "abcd") # raises Affirm::Error on failure
+charge.capture
+charge.capture(order_id: "1234", shipping_carrier: "USPS", shipping_confirmation: "ABCD1234")
 ```
 
+Returns an `Affirm::ChargeEvent` object of type `capture`.
+
 ### Voiding a charge
+
 ```ruby
-Affirm::API.charges.void(charge_id: "abcd")
-Affirm::API.charges.void!(charge_id: "abcd") # raises Affirm::Error on failure
+charge.void
 ```
+
+Returns an `Affirm::ChargeEvent` object of type `void`.
 
 ### Refunding a charge
 Optionally takes an `amount` to refund (in cents).
+
 ```ruby
-Affirm::API.charges.refund(charge_id: "abcd")
-Affirm::API.charges.refund(charge_id: "abcd", amount: 5000)
-Affirm::API.charges.refund!(charge_id: "abcd") # raises Affirm::Error on failure
+charge.refund
+charge.refund(amount: 1000)
 ```
+
+Returns an `Affirm::ChargeEvent` object of type `refund`.
 
 ### Updating tracking fields
 Optionally takes an `order_id`, `shipping_carrier`, and `shipping_confirmation`.
+
 ```ruby
-Affirm::API.charges.update(charge_id: "abcd", order_id: "1234", shipping_carrier: "USPS", shipping_confirmation: "ABCD1234")
-Affirm::API.charges.update!(charge_id: "abcd", order_id: "1234") # raises Affirm::Error on failure
+charge.update(order_id: "1234", shipping_carrier: "USPS", shipping_confirmation: "ABCD1234")
 ```
 
-## Responses
-On successful api calls, the response json is 
-```ruby
-response = Affirm::API.charges.get(charge_id: "abcd")
+Returns an `Affirm::ChargeEvent` object of type `update`.
 
-response.success? # => true
-response.error? # => false
-
-response.status_code # => 200
-
-response.body # => hash of values
-response.body["id"] # eg "abcd"
-response.body["details"]["shipping_amount"] # eg 400
-```
-
-### Error responses
-Unsuccessful responses have a few methods built in:
-```ruby
-response.code # eg "auth-declined"
-response.type # eg "invalid_request"
-response.message # eg "Invalid phone number format"
-response.field # eg "shipping_address.phone"
-```
-See https://docs.affirm.com/v2/api/errors/#error-object.
-
-### Exceptions
-Exceptions are raised for 5xx, 404 and 401 responses, yielding an `Affirm::ServerError`,
+## Exceptions
+Special exceptions are raised for 5xx, 404 and 401 responses, yielding an `Affirm::ServerError`,
 `Affirm::ResourceNotFoundError` and `Affirm::AuthenticationError`, respectively. These are subclassed from
 `Affirm::Error`.
+
+All exceptions have the following methods on them:
+
 ```ruby
 begin
-  Affirm::API.charges.authorize(checkout_token: "token")
-rescue Affirm::ServerError => e
-  Logger.info e.code
-  Logger.info e.message
+  Affirm::Charge.create("checkout_token")
+rescue Affirm::Error => e
+  Logger.info e.http_code # eg 422
+  Logger.info e.code      # eg "auth-declined"
+  Logger.info e.message   # eg "Invalid phone number format"
 end
 ```
 

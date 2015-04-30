@@ -4,10 +4,6 @@ module Affirm
       attr_accessor :public_key, :secret_key, :api_url
       @@client = nil
 
-      def charges
-        @@charges ||= Affirm::Charges.new(client)
-      end
-
       def client
         @@client ||= Affirm::Client.new(
           public_key: public_key,

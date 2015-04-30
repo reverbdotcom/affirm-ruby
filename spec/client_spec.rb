@@ -54,10 +54,6 @@ describe Affirm::Client do
         end
       end
     end
-
-    context "authentication error" do
-
-    end
   end
 
   describe "get" do
