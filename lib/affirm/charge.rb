@@ -15,9 +15,13 @@ module Affirm
     #
     # checkout_token - (required) string. The charge token passed through the confirmation response.
     def self.create(checkout_token, client: Affirm::API.client)
-      response = client.make_request!("/charges", :post, checkout_token: checkout_token)
+      response = client.make_request("/charges", :post, checkout_token: checkout_token)
 
-      new(attrs: response.body, client: client)
+      if response.success?
+        new(attrs: response.body, client: client)
+      else
+        raise ChargeError.from_response(response)
+      end
     end
 
     ##
@@ -106,10 +110,14 @@ module Affirm
     end
 
     def api_request(url, method, params={})
-      response = @client.make_request!(url, method, params)
-      event = ChargeEvent.new(response.body)
-      @events << event
-      event
+      response = @client.make_request(url, method, params)
+      if response.success?
+        event = ChargeEvent.new(response.body)
+        @events << event
+        event
+      else
+        raise ChargeError.from_response(response)
+      end
     end
   end
 end

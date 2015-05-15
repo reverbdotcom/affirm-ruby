@@ -92,8 +92,10 @@ charge.update(order_id: "1234", shipping_carrier: "USPS", shipping_confirmation:
 Returns an `Affirm::ChargeEvent` object of type `update`.
 
 ## Exceptions
+Errors due to failed requests with the charges api (ie http code 400) will raise an `Affirm::ChargeError`.
+
 Special exceptions are raised for 5xx, 404 and 401 responses, yielding an `Affirm::ServerError`,
-`Affirm::ResourceNotFoundError` and `Affirm::AuthenticationError`, respectively. These are subclassed from
+`Affirm::ResourceNotFoundError` and `Affirm::AuthenticationError`, respectively. These are all subclassed from
 `Affirm::Error`.
 
 All exceptions have the following methods on them:

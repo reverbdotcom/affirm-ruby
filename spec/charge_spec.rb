@@ -74,8 +74,17 @@ describe Affirm::Charge do
       let(:response_code) { 422 }
       let(:response_body) { load_fixture("charges/invalid_request.json") }
 
-      it "raises an error" do
-        expect { Affirm::Charge.create("token") }.to raise_error(Affirm::Error)
+      it "raises a charge error" do
+        expect { Affirm::Charge.create("token") }.to raise_error(Affirm::ChargeError)
+      end
+    end
+
+    context "other api error" do
+      let(:response_code) { 500 }
+      let(:response_body) { "" }
+
+      it "raises relevant error" do
+        expect { Affirm::Charge.create("token") }.to raise_error(Affirm::ServerError)
       end
     end
   end
@@ -112,8 +121,8 @@ describe Affirm::Charge do
       let(:response_code) { 422 }
       let(:response_body) { load_fixture("charges/invalid_request.json") }
 
-      it "raises an error" do
-        expect { charge.capture }.to raise_error(Affirm::Error)
+      it "raises a charge error" do
+        expect { charge.capture }.to raise_error(Affirm::ChargeError)
       end
     end
   end
@@ -143,8 +152,8 @@ describe Affirm::Charge do
       let(:response_code) { 422 }
       let(:response_body) { load_fixture("charges/invalid_request.json") }
 
-      it "raises an error" do
-        expect { charge.void }.to raise_error(Affirm::Error)
+      it "raises a charge error" do
+        expect { charge.void }.to raise_error(Affirm::ChargeError)
       end
     end
   end
@@ -184,8 +193,8 @@ describe Affirm::Charge do
       let(:response_code) { 422 }
       let(:response_body) { load_fixture("charges/invalid_request.json") }
 
-      it "raises an error" do
-        expect { charge.refund }.to raise_error(Affirm::Error)
+      it "raises a charge error" do
+        expect { charge.refund }.to raise_error(Affirm::ChargeError)
       end
     end
   end
@@ -223,7 +232,7 @@ describe Affirm::Charge do
       let(:response_body) { load_fixture("charges/invalid_request.json") }
 
       it "raises an error" do
-        expect { charge.update }.to raise_error(Affirm::Error)
+        expect { charge.update }.to raise_error(Affirm::ChargeError)
       end
     end
   end
