@@ -124,6 +124,18 @@ describe Affirm::Charge do
       it "raises a charge error" do
         expect { charge.capture }.to raise_error(Affirm::ChargeError)
       end
+
+      context "when the failed response is a duplicate capture" do
+        let(:response_code) { 400 }
+        let(:response_body) { load_fixture("charges/duplicate_capture.json") }
+        it "the raised error is a duplicate capture" do
+          begin
+            charge.capture
+          rescue Affirm::ChargeError => e
+            e.should be_duplicate_capture
+          end
+        end
+      end
     end
   end
 

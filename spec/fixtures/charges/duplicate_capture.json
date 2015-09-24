@@ -1,0 +1,5 @@
+{
+  "status_code": 400,
+  "code": "duplicate-capture",
+  "message": "Duplicate capture"
+}
