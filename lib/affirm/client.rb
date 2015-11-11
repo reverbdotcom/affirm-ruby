@@ -1,3 +1,5 @@
+require 'typhoeus'
+
 module Affirm
   class Client
     def initialize(public_key:, secret_key:, api_url: Affirm::API.api_url)
