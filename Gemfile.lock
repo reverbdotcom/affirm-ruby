@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    affirm (1.1.0)
+    affirm (1.1.2)
       typhoeus
 
 GEM
@@ -13,7 +13,7 @@ GEM
     diff-lcs (1.2.5)
     ethon (0.7.3)
       ffi (>= 1.3.0)
-    ffi (1.9.8)
+    ffi (1.9.10)
     rake (10.1.0)
     rspec (3.2.0)
       rspec-core (~> 3.2.0)
