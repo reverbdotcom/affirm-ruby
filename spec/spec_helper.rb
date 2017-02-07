@@ -1,18 +1,11 @@
 require 'webmock'
 require 'webmock/rspec'
 require 'affirm'
+require 'helpers/utils'
 
 include WebMock::API
 
-TEST_URL = "https://public_key:secret_key@test.affirm.com"
-
 RSpec.configure do |config|
-  config.before(:suite) do
-    Affirm::API.public_key = "public_key"
-    Affirm::API.secret_key = "secret_key"
-    Affirm::API.api_url    = "https://test.affirm.com"
-  end
-
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
     expectations.syntax = [:should, :expect]
@@ -33,6 +26,4 @@ RSpec.configure do |config|
   config.order = :random
 end
 
-def load_fixture(path)
-  File.read(File.join(__dir__, "fixtures", path))
-end
+require 'helpers/share_context'

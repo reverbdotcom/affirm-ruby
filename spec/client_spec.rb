@@ -1,10 +1,11 @@
 require 'spec_helper'
 
 describe Affirm::Client do
-  let(:client) { described_class.new(public_key: public_key, secret_key: secret_key, api_url: api_url) }
   let(:public_key) { "public_key" }
   let(:secret_key) { "secret_key" }
   let(:api_url) { "https://testaffirm.com" }
+  
+  let(:client) { described_class.new(public_key: public_key, secret_key: secret_key, api_url: api_url) }
 
   let(:request) { double("request", run: response) }
   let(:response) { double("response", success?: true, body: "", code: 200) }
