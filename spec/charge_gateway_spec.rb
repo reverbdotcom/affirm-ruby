@@ -71,6 +71,14 @@ describe Affirm::ChargeGateway do
       }.to_json)
     end
 
+    it "sends the correct body with order_id" do
+      charge = charge_gateway.create('token', 'order-id')
+
+      expect(WebMock).to have_requested(request_method, request_url).with(body: {
+        checkout_token: 'token', order_id: 'order-id'
+      }.to_json)
+    end
+
     context "failed response" do
       let(:response_code) { 422 }
       let(:response_body) { load_fixture("charges/invalid_request.json") }

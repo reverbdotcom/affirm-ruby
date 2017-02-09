@@ -25,8 +25,10 @@ module Affirm
     # CREATE / AUTHORIZE
     #
     # checkout_token - (required) string. The charge token passed through the confirmation response.
-    def create(checkout_token)
-      response = client.make_request("/charges", :post, checkout_token: checkout_token)
+    def create(checkout_token, order_id = nil)
+      data = { checkout_token: checkout_token }
+      data[:order_id] = order_id if order_id
+      response = client.make_request("/charges", :post, data)
 
       if response.success?
         Charge.new(attrs: response.body, client: client)
