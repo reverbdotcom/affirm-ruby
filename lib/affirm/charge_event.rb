@@ -1,8 +1,8 @@
 module Affirm
   class ChargeEvent
     attr_reader :id, :transaction_id, :type, :created,
-                :amount, :fee, :order_id, :shipping_carrier, :shipping_confirmation,
-                :fee_refunded
+      :amount, :fee, :order_id, :shipping_carrier, :shipping_confirmation,
+      :fee_refunded
 
     def initialize(attrs)
       @id                    = attrs['id']

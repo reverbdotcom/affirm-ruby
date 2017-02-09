@@ -26,7 +26,7 @@ module Affirm
     #
     # amount - (optional) integer or null. The amount to refund in cents. The default amount is the remaining balance on the charge.
     def refund(amount: nil)
-      api_request("/charges/#{id}/refund", :post,                     amount: amount)
+      api_request("/charges/#{id}/refund", :post, amount: amount)
     end
 
     ##
@@ -36,9 +36,9 @@ module Affirm
     # shipping_carrier - (optional) string. The shipping carrier used to ship the items in the charge.
     # shipping_confirmation - (optional) string. The shipping confirmation for the shipment.
     def update(order_id: nil, shipping_carrier: nil, shipping_confirmation: nil)
-      api_request("/charges/#{id}/update", :post,                     order_id: order_id,
-                                                                      shipping_carrier: shipping_carrier,
-                                                                      shipping_confirmation: shipping_confirmation)
+      api_request("/charges/#{id}/update", :post, order_id: order_id,
+                                                  shipping_carrier: shipping_carrier,
+                                                  shipping_confirmation: shipping_confirmation)
     end
 
     def initialize(attrs: {}, client: Affirm::API.client)
