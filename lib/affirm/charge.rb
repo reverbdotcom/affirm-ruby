@@ -1,6 +1,6 @@
 module Affirm
   class Charge
-    attr_reader :id, :amount, :created, :currency, :auth_hold, :payable, :order_id, :events, :details
+    attr_reader :id, :amount, :created, :currency, :auth_hold, :payable, :order_id, :events, :details, :expires
 
     ##
     # CAPTURE
@@ -68,6 +68,7 @@ module Affirm
       @auth_hold = attrs['auth_hold']
       @payable   = attrs['payable']
       @void      = attrs['void']
+      @expires   = attrs['expires']
       @order_id  = attrs['order_id']
       @details   = attrs['details']
       @events    = parse_events(attrs['events'])
