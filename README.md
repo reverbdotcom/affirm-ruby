@@ -1,4 +1,5 @@
 # affirm-ruby
+
 Ruby client library for integrating with Affirm financing (https://www.affirm.com/)
 
 Requires Ruby 2.1 or greater.
@@ -6,6 +7,7 @@ Requires Ruby 2.1 or greater.
 [![Build Status](https://travis-ci.org/reverbdotcom/affirm-ruby.png?branch=master)](https://travis-ci.org/reverbdotcom/affirm-ruby)
 
 ## Install
+
 Add to your gemfile:
 
 ```ruby
@@ -15,12 +17,15 @@ gem 'affirm'
 and `bundle install`.
 
 ## Initialize
-Initialize the client with your credentials (if you're using rails, this goes in `config/initializers`).
+
+You should instantiate a Affirm::ChargeGateway object before creating/retrieving a charge. This is useful when your system has multiple Affirm accounts.
 
 ```ruby
-Affirm::API.public_key = "xxx"
-Affirm::API.secret_key = "xxx"
-Affirm::API.api_url    = "https://sandbox.affirm.com/api/v2/"
+charge_gateway = Affirm::ChargeGateway.new(
+  environment: 'live', # or sandbox
+  public_key: 'xxxx',
+  secret_key: 'xxxx'
+)
 ```
 
 ## Charges
@@ -30,13 +35,13 @@ All API requests raise an `Affirm::Error` or subclass thereof on failure.
 ### Creating/authorizing a charge
 
 ```ruby
-charge = Affirm::Charge.create("checkout_token")
+charge = charge_gateway.create('checkout_token')
 ```
 
 ### Retrieving a charge
 
 ```ruby
-charge = Affirm::Charge.retrieve("ABCD-ABCD")
+charge = charge_gateway.retrieve("ABCD-ABCD")
 
 charge.id
 charge.amount
@@ -102,7 +107,7 @@ All exceptions have the following methods on them:
 
 ```ruby
 begin
-  Affirm::Charge.create("checkout_token")
+  charge_gateway.create("checkout_token")
 rescue Affirm::Error => e
   Logger.info e.http_code # eg 422
   Logger.info e.code      # eg "auth-declined"

@@ -1,28 +1,6 @@
 module Affirm
   class Charge
-    attr_reader :id, :amount, :created, :currency, :auth_hold, :payable, :order_id, :events, :details
-
-    ##
-    # RETRIEVE
-    #
-    # id - (required) string. The charge id, in format 'XXXX-XXXX'
-    def self.retrieve(id, client: Affirm::API.client)
-      new(attrs: {"id" => id}, client: client).refresh
-    end
-
-    ##
-    # CREATE / AUTHORIZE
-    #
-    # checkout_token - (required) string. The charge token passed through the confirmation response.
-    def self.create(checkout_token, client: Affirm::API.client)
-      response = client.make_request("/charges", :post, checkout_token: checkout_token)
-
-      if response.success?
-        new(attrs: response.body, client: client)
-      else
-        raise ChargeError.from_response(response)
-      end
-    end
+    attr_reader :id, :amount, :created, :currency, :auth_hold, :payable, :order_id, :events, :details, :expires
 
     ##
     # CAPTURE
@@ -31,11 +9,9 @@ module Affirm
     # shipping_carrier - (optional) string. The shipping carrier used to ship the items in the charge.
     # shipping_confirmation - (optional) string. The shipping confirmation for the shipment.
     def capture(order_id: nil, shipping_carrier: nil, shipping_confirmation: nil)
-      api_request("/charges/#{id}/capture", :post, {
-        order_id: order_id,
-        shipping_carrier: shipping_carrier,
-        shipping_confirmation: shipping_confirmation
-      })
+      api_request("/charges/#{id}/capture", :post, order_id: order_id,
+                                                   shipping_carrier: shipping_carrier,
+                                                   shipping_confirmation: shipping_confirmation)
     end
 
     ##
@@ -50,9 +26,7 @@ module Affirm
     #
     # amount - (optional) integer or null. The amount to refund in cents. The default amount is the remaining balance on the charge.
     def refund(amount: nil)
-      api_request("/charges/#{id}/refund", :post, {
-        amount: amount
-      })
+      api_request("/charges/#{id}/refund", :post, amount: amount)
     end
 
     ##
@@ -62,11 +36,9 @@ module Affirm
     # shipping_carrier - (optional) string. The shipping carrier used to ship the items in the charge.
     # shipping_confirmation - (optional) string. The shipping confirmation for the shipment.
     def update(order_id: nil, shipping_carrier: nil, shipping_confirmation: nil)
-      api_request("/charges/#{id}/update", :post, {
-        order_id: order_id,
-        shipping_carrier: shipping_carrier,
-        shipping_confirmation: shipping_confirmation
-      })
+      api_request("/charges/#{id}/update", :post, order_id: order_id,
+                                                  shipping_carrier: shipping_carrier,
+                                                  shipping_confirmation: shipping_confirmation)
     end
 
     def initialize(attrs: {}, client: Affirm::API.client)
@@ -89,16 +61,17 @@ module Affirm
     private
 
     def set_attrs(attrs)
-      @id        = attrs["id"]
-      @amount    = attrs["amount"]
-      @created   = attrs["created"]
-      @currency  = attrs["currency"]
-      @auth_hold = attrs["auth_hold"]
-      @payable   = attrs["payable"]
-      @void      = attrs["void"]
-      @order_id  = attrs["order_id"]
-      @details   = attrs["details"]
-      @events    = parse_events(attrs["events"])
+      @id        = attrs['id']
+      @amount    = attrs['amount']
+      @created   = attrs['created']
+      @currency  = attrs['currency']
+      @auth_hold = attrs['auth_hold']
+      @payable   = attrs['payable']
+      @void      = attrs['void']
+      @expires   = attrs['expires']
+      @order_id  = attrs['order_id']
+      @details   = attrs['details']
+      @events    = parse_events(attrs['events'])
     end
 
     def parse_events(events_attrs)
@@ -109,7 +82,7 @@ module Affirm
       end
     end
 
-    def api_request(url, method, params={})
+    def api_request(url, method, params = {})
       response = @client.make_request(url, method, params)
       if response.success?
         event = ChargeEvent.new(response.body)
