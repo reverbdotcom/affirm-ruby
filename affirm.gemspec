@@ -2,7 +2,7 @@ Gem::Specification.new do |s|
   s.name = "affirm"
   s.summary = "Affirm Ruby Client Library"
   s.description = "Ruby client library for integrating with Affirm financing payments"
-  s.version = "1.1.2"
+  s.version = "1.1.3"
   s.license = "Apache License Version 2.0"
   s.author = "Reverb.com"
   s.email = "dev@reverb.com"
