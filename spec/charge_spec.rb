@@ -136,6 +136,18 @@ describe Affirm::Charge do
           end
         end
       end
+
+      context "when the failed response is a voided capture" do
+        let(:response_code) { 400 }
+        let(:response_body) { load_fixture("charges/voided_capture.json") }
+        it "the raised error is a voided capture" do
+          begin
+            charge.capture
+          rescue Affirm::ChargeError => e
+            e.should be_voided_capture
+          end
+        end
+      end
     end
   end
 

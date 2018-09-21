@@ -1,0 +1,5 @@
+{
+  "status_code": 400,
+  "code": "capture-voided",
+  "message": "Cannot capture voided charge."
+}
