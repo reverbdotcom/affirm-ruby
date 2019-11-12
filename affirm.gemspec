@@ -9,6 +9,14 @@ Gem::Specification.new do |s|
   s.has_rdoc = false
   s.files = Dir.glob ["README.md", "lib/**/*.{rb}", "spec/**/*", "*.gemspec"]
 
+  if s.respond_to?(:metadata)
+    s.metadata["allowed_push_host"] = "https://rubygems.pkg.github.com"
+  else
+    raise "RubyGems 2.0 or newer is required to protect against public gem pushes."
+  end
+
+  s.metadata = { "github_repo" => "ssh://github.com/reverbdotcom/affirm-ruby" }
+
   s.add_dependency "typhoeus"
 
   s.add_development_dependency "bundler"
