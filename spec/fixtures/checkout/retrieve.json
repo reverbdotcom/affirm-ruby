@@ -1,0 +1,36 @@
+{
+  "currency":"USD",
+  "total":6100,
+  "order_id":"order_id_123",
+  "items":{
+    "sweater-a92123":{
+      "sku":"sweater-a92123",
+      "display_name":"Sweater",
+      "qty":1,
+      "item_type":"physical",
+      "item_image_url":"http://placehold.it/350x150",
+      "item_url":"http://placehold.it/350x150",
+      "unit_price":5000
+    }
+  },
+  "shipping_amount":400,
+  "tax_amount":700,
+  "financing_program": "flyus_3z6r12r",
+  "shipping_amount":800,
+  "shipping":{
+    "name":{
+      "full":"John Doe"
+    },
+    "address":{
+      "line1":"325 Pacific Ave",
+      "city":"San Francisco",
+      "state":"CA",
+      "zipcode":"94112",
+      "country":"USA"
+    }
+  },
+  "metadata": {
+    "mode": "modal",
+    "invoice_id": "invoice_id_123"
+  }
+}

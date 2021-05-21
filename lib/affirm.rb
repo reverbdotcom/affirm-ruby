@@ -5,6 +5,7 @@ require 'affirm/client'
 require 'affirm/response'
 require 'affirm/charge_event'
 require 'affirm/charge'
+require 'affirm/checkout'
 
 require 'affirm/errors/error'
 require 'affirm/errors/charge_error'
